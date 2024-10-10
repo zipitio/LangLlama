@@ -8,17 +8,32 @@
 </head>
 <body>
     <div class="container text-center">
-        <h2>Welcome to Langllama</h2>
-        <div class="row justify-content-center">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Your Story</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary">Brought to you by the llama.</h6>
-                    <p class="card-text">
-                            <p class="card-text">Language: {{ language }}</p>
-                            <p class="card-text">Language level: {{ language_level }}</p>
-                            <p class="card-text">Language: {{ article_topic }}</p>
-                    </p>
+        <div class="container text-center my-5">
+            <h2>Welcome to Langllama</h2>
+            <div class="row justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Story</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">Brought to you by the llama.</h6>
+
+                        <p class="card-text">Language: {{ language }}</p>
+                        <p class="card-text">Language level: {{ language_level }}</p>
+                        <p class="card-text">Language: {{ article_topic }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container text-center my-5">
+            <div class="row justify-content-center">
+                <div class="card" style="width: 50rem;">
+                    <div class="card-body">
+                        <h2 class="card-title ">{{ story_title }}</h2>
+                        <p class="card-text">
+                            {% for paragraph in story_list %}
+                                <p class="card-text"> {{ paragraph }}</p>
+                            {% endfor %}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
