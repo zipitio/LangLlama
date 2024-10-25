@@ -1,14 +1,41 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, HTTPException, Depends, status
 from fastapi.templating import Jinja2Templates
 import aiprompting
-#from .database import engine, Base
+from pydantic import BaseModel
+from typing import Annotated
+import models
+from database import engine, SessionLocal
+from sqlalchemy.orm import Session
 
 app = FastAPI()
-
+# Create database tables
+models.Base.metadata.create_all(bind=engine)
 templates = Jinja2Templates(directory="templates")
 
-# Create database tables
-#Base.metadata.create_all(bind=engine)
+class TopicBase(BaseModel):
+    topic_id: int
+    topic_name: str
+    genre: str
+
+class UserBase(BaseModel):
+    username: str
+    #user_id: int
+
+# Dependency to create and close sessions for each request
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+db_dependency = Annotated[Session, Depends(get_db)]
+
+@app.post("/users/", status_code=status.HTTP_201_CREATED)
+async def create_user(user: UserBase, db: db_dependency):
+    db_user = models.User(**user.dict())
+    db.add(db_user)
+    db.commit()
 
 @app.get("/")
 async def root(request: Request):
