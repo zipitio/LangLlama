@@ -1,10 +1,14 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 import aiprompting
+#from .database import engine, Base
 
 app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
+
+# Create database tables
+#Base.metadata.create_all(bind=engine)
 
 @app.get("/")
 async def root(request: Request):
